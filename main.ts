@@ -672,6 +672,25 @@ e c c c c c c c c c c c c c c 7
 . 7 7 3 3 6 6 b b b b b b 7 7 . 
 . 7 7 7 7 7 7 7 7 7 7 7 7 7 7 . 
 `
+    //% blockIdentity=images._tile
+    export const tile35 = img`
+. . . . . . . . . . . . . . . . 
+. . 2 2 . . . . . . . . . . . . 
+. . 2 2 2 2 . . . . . . . . . . 
+. . 2 2 2 2 2 . . . . . . . . . 
+. . 2 2 2 2 2 2 2 . . . . . . . 
+. . 2 2 2 2 2 2 2 2 . . . . . . 
+. . 2 2 2 2 2 2 2 2 2 . . . . . 
+. . 2 2 2 2 2 2 2 2 2 2 . . . . 
+. . 2 2 2 2 2 2 2 2 . . . . . . 
+. . 2 2 2 2 2 2 . . . . . . . . 
+. . 2 2 2 2 . . . . . . . . . . 
+. . 2 2 . . . . . . . . . . . . 
+. . 2 . . . . . . . . . . . . . 
+. . 2 . . . . . . . . . . . . . 
+. . 2 . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.movingTrap, function (sprite, otherSprite) {
     sprite.startEffect(effects.spray)
@@ -686,7 +705,10 @@ scene.onOverlapTile(SpriteKind.Player, myTiles.tile25, function (sprite, locatio
     }
 })
 scene.onOverlapTile(SpriteKind.Player, myTiles.tile32, function (sprite, location) {
-    game.over(true)
+    game.splash("Level cleared !")
+    currentLevel += 1
+    clearLevel()
+    initializeLevel(currentLevel)
 })
 function placeMovingPlatforms () {
     for (let value of tiles.getTilesByType(myTiles.tile31)) {
@@ -862,6 +884,9 @@ b b b 7 b b b b b b b f 7 . . .
         hero.image.flipX()
     }
 }
+scene.onOverlapTile(SpriteKind.Player, myTiles.tile23, function (sprite, location) {
+    game.over(false)
+})
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Trap, function (sprite, otherSprite) {
     sprite.startEffect(effects.spray)
     info.changeLifeBy(-1)
@@ -1142,26 +1167,24 @@ function placePlatforms () {
         }
     }
 }
-let movingClock = false
-let spikesDown: Sprite = null
-let spikesLeft: Sprite = null
-let spikesRight: Sprite = null
-let spikesUp: Sprite = null
-let MovingTrapsList: Sprite[] = []
-let circSaw: Sprite = null
-let bumper: Sprite = null
-let jump = false
-let MovingPlatformsList: Sprite[] = []
-let movingPlatformH: Sprite = null
-let invincibilityPeriod = 0
-let heroDirection = ""
-let heroState = ""
-let hero: Sprite = null
-let gravity = 0
-// image.setPalette(palettes.Equpix15)
-scene.setBackgroundColor(2)
-tiles.setTilemap(tiles.createTilemap(
-            hex`340010000b151d0000000000000000001d0000000000000004060000000f001d19000405060019000000000000000000000000000000000d0b15001d000000210000001d00001e00001d000004060000000e1d001900040506001900001d0000000000000000001d00000020001d00001c1b010202020202020202020300000004061a1c0103000019000405060019001d001e0000001d001d0000000016010300000000000007080808080808080808090000000406000004061a001900040506001900000102020b030000001d0000000004060202020300000014000f1d0000000f00000000000406000004060000190004050600190000040b05050600000000000000000406050808080900000000100000000010000000000004060000040600001900040506001900160405050506150000000000000c0406060000000f00001d001000000000100000001c1b04060000040600001900040506000000000405050b0600000000160102020406060c001d0e0000001d0e001e001e0e1d000000000709000004030000190004050600000016070808080915000000000708080406060000160102031500010202020203001d0000000f001d0004061d001900040506150000000000000000000000000000190004060600001604050915000405050505061a1c000000101d00000406001d190004050615000000000000001d00001f0000001916040606000102050600000007080808080915000000000e00000004060000190004050615000000001d00000000000000000019000406080205050506000000001d000f00000000001301030000000406000000000708091500000000001d0000000000000000191604060004050505061d00001d00001000000000010205060000000406000000000000000000000000000000000000000000001900040600070505080900000a001d210e00000b02050505060000000406000000000000000000000000000000000000000000000016040600000406000000000000000102020205050505050600000004061a1c1c1c1b0103001f0000001f0000001f0000000a130102020617170406171717171717170405050505050505050617171704061717171717040617171717171717171717171717010205050506`,
+function clearLevel () {
+    for (let value of sprites.allOfKind(SpriteKind.movingTrap)) {
+        value.destroy()
+    }
+    for (let value of sprites.allOfKind(SpriteKind.Trap)) {
+        value.destroy()
+    }
+    for (let value of sprites.allOfKind(SpriteKind.Bumper)) {
+        value.destroy()
+    }
+    for (let value of sprites.allOfKind(SpriteKind.Platform)) {
+        value.destroy()
+    }
+}
+function initializeLevel (level: number) {
+    if (level == 1) {
+        tiles.setTilemap(tiles.createTilemap(
+            hex`340010000b151d0000000000000000001d0000000000000004060000000f001d19000405060019000000000000000000000000000000000d0b15001d000000210000001d00001e00001d000004060000000e1d001900040506001900001d0000000000000000001d00000020231d00001c1b010202020202020202020300000004061a1c0103000019000405060019001d001e0000001d001d0000000016010300000000000007080808080808080808090000000406000004061a001900040506001900000102020b030000001d0000000004060202020300000014000f1d0000000f00000000000406000004060000190004050600190000040b05050600000000000000000406050808080900000000100000000010000000000004060000040600001900040506001900160405050506150000000000000c0406060000000f00001d001000000000100000001c1b04060000040600001900040506000000000405050b0600000000160102020406060c001d0e0000001d0e001e001e0e1d000000000709000004030000190004050600000016070808080915000000000708080406060000160102031500010202020203001d0000000f001d0004061d001900040506150000000000000000000000000000190004060600001604050915000405050505061a1c000000101d00000406001d190004050615000000000000001d00001f0000001916040606000102050600000007080808080915000000000e00000004060000190004050615000000001d00000000000000000019000406080205050506000000001d000f00000000001301030000000406000000000708091500000000001d0000000000000000191604060004050505061d00001d00001000000000010205060000000406000000000000000000000000000000000000000000001900040600070505080900000a001d210e00000b02050505060000000406000000000000000000000000000000000000000000000016040600000406000000000000000102020205050505050600000004061a1c1c1c1b0103001f0000001f0000001f0000000a130102020617170406171717171717170405050505050505050617171704061717171717040617171717171717171717171717010205050506`,
             img`
 2 . . . . . . . . . . . . . . . . . . . 2 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 2 . . . . . . . . . . . . . . . . . . . 2 2 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -1180,16 +1203,101 @@ tiles.setTilemap(tiles.createTilemap(
 . . 2 2 . . . . . . . 2 2 2 2 2 2 2 2 2 2 . . . 2 2 . . . . . 2 2 . . . . . . . . . . . . . 2 . 2 2 2 2 
 . . 2 2 . . . . . . . 2 2 2 2 2 2 2 2 2 2 . . . 2 2 . . . . . 2 2 . . . . . . . . . . . . . 2 2 2 2 2 2 
 `,
-            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12,myTiles.tile13,myTiles.tile14,myTiles.tile15,myTiles.tile16,myTiles.tile17,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,myTiles.tile22,myTiles.tile23,myTiles.tile24,myTiles.tile25,myTiles.tile26,myTiles.tile27,myTiles.tile28,myTiles.tile29,myTiles.tile30,myTiles.tile31,myTiles.tile32,myTiles.tile33,myTiles.tile34],
+            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12,myTiles.tile13,myTiles.tile14,myTiles.tile15,myTiles.tile16,myTiles.tile17,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,myTiles.tile22,myTiles.tile23,myTiles.tile24,myTiles.tile25,myTiles.tile26,myTiles.tile27,myTiles.tile28,myTiles.tile29,myTiles.tile30,myTiles.tile31,myTiles.tile32,myTiles.tile33,myTiles.tile34,myTiles.tile35],
             TileScale.Sixteen
         ))
+    } else {
+        if (level == 2) {
+            tiles.setTilemap(tiles.createTilemap(
+            hex`1000300000000000000000000000000000000000000000000000000000000000000000000b0b0b0b0b0b0b000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b0b0b0b0b0b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b0b0b0b0b0b000000000000000000000000000000000000000000000000000000000000000000000000000b0b0b0b0b0b000000000000000000000000000000000000000000000000000000000000000000000000000b0b0b0b0b0b0b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b0000000000000000000000000000000b0000000000000000000000000000000b00000b0b0b0b0b0b0b0b0b0b0b0b0b0b0000000000000000000000000000000b0000000000000000000000000000000b0000000000000000000000000000000b0b0b0b0b0b0b0b0b0b0b0b000000000b0000000000000000000000000000000b0000000000000000000000000000000b0000000000000000000000000000000b0b0b0b0b0b0b0000000b0b0b0b0b0b0b00000000000000000000000000000019000000000000000000000000000000190000000000000000000000000000001900000000000000000000000000000019000000000000000000000000000000190000000000000000000000000000001923000000000000000000000000000019000000000000000000000000000000190b00001f0000001f0000001f0000000017171717171717171717171717171717`,
+            img`
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+2 2 2 2 2 2 2 . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . 2 2 2 2 2 2 . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . 2 2 2 2 2 2 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . 2 2 2 2 2 2 . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+2 2 2 2 2 2 2 . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . 2 
+. . . . . . . . . . . . . . . 2 
+. . . . . . . . . . . . . . . 2 
+. . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+. . . . . . . . . . . . . . . 2 
+. . . . . . . . . . . . . . . 2 
+. . . . . . . . . . . . . . . 2 
+2 2 2 2 2 2 2 2 2 2 2 . . . . 2 
+. . . . . . . . . . . . . . . 2 
+. . . . . . . . . . . . . . . 2 
+. . . . . . . . . . . . . . . 2 
+2 2 2 2 2 2 . . . 2 2 2 2 2 2 2 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+2 . . . . . . . . . . . . . . . 
+. . . . . . . . . . . . . . . . 
+`,
+            [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12,myTiles.tile13,myTiles.tile14,myTiles.tile15,myTiles.tile16,myTiles.tile17,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,myTiles.tile22,myTiles.tile23,myTiles.tile24,myTiles.tile25,myTiles.tile26,myTiles.tile27,myTiles.tile28,myTiles.tile29,myTiles.tile30,myTiles.tile31,myTiles.tile32,myTiles.tile33,myTiles.tile34,myTiles.tile35],
+            TileScale.Sixteen
+        ))
+        }
+    }
+    placeTraps()
+    placeMovingTraps()
+    placeMovingPlatforms()
+    createEnemies()
+    hero.ay = gravity
+    hero.setVelocity(0, 0)
+    tiles.placeOnRandomTile(hero, myTiles.tile35)
+    scene.cameraFollowSprite(hero)
+    heroState = "idle"
+    heroDirection = "right"
+}
+let movingClock = false
+let spikesDown: Sprite = null
+let spikesLeft: Sprite = null
+let spikesRight: Sprite = null
+let spikesUp: Sprite = null
+let MovingTrapsList: Sprite[] = []
+let circSaw: Sprite = null
+let bumper: Sprite = null
+let jump = false
+let heroDirection = ""
+let heroState = ""
+let MovingPlatformsList: Sprite[] = []
+let movingPlatformH: Sprite = null
+let currentLevel = 0
+let hero: Sprite = null
+let invincibilityPeriod = 0
+let gravity = 0
+// image.setPalette(palettes.Equpix15)
+scene.setBackgroundColor(2)
 game.showLongText("Ah ah ah ! My little Hero, you are trapped. Neither your double jump, dash or wall jump will help you escape. You'll die in this maze of death ! The Ruthless Witch.", DialogLayout.Full)
 gravity = 400
-info.setLife(3)
-placeTraps()
-placeMovingTraps()
-placeMovingPlatforms()
-createEnemies()
+invincibilityPeriod = 2000
 hero = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . 7 7 7 7 7 . . . . . . . . 
@@ -1212,13 +1320,10 @@ hero = sprites.create(img`
 . . . 7 5 5 7 7 7 7 5 5 7 . . . 
 . . . 7 7 7 . . . . 7 7 7 . . . 
 `, SpriteKind.Player)
-hero.ay = gravity
-tiles.placeOnTile(hero, tiles.getTileLocation(0, 3))
-scene.cameraFollowSprite(hero)
 controller.moveSprite(hero, 100, 0)
-heroState = "idle"
-heroDirection = "right"
-invincibilityPeriod = 2000
+info.setLife(3)
+currentLevel = 2
+initializeLevel(currentLevel)
 game.onUpdateInterval(2000, function () {
     if (movingClock == false) {
         for (let value62 of MovingPlatformsList) {
@@ -1253,7 +1358,7 @@ game.onUpdate(function () {
     }
     placePlatforms()
     if (hero.y >= 235) {
-        game.over(false)
+    	
     }
 })
 game.onUpdate(function () {
