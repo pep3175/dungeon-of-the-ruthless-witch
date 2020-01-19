@@ -504,11 +504,11 @@ e c c 9 c c e c c 9 c c e c 9 c
     //% blockIdentity=images._tile
     export const tile26 = img`
 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-7 e e e c e e c e e e c e e e e 
-7 e e c c c c c c c c c c c c c 
-7 e 7 c c c c c c c c c c c c c 
-7 c c c c c c c c c c c c c c c 
-7 e c c c c c c c c c c c c c c 
+7 e e e c e e c e e e c e e e 7 
+7 e e c c c c c c c c c c c c 7 
+7 e 7 c c c c c c c c c c c c 7 
+7 c c c c c c c c c c c c c c 7 
+7 e c c c c c c c c c c c c c 7 
 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 . 7 e e e e e e 7 . . . . . . . 
 7 e c c c c c 7 . . . . . . . . 
@@ -523,11 +523,11 @@ e c c 9 c c e c c 9 c c e c 9 c
     //% blockIdentity=images._tile
     export const tile27 = img`
 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
-e e e e c e e c e e e c e e e 7 
-e e c c c c c c c c c c c c c 7 
-e c 7 c c c c c c c c c c 7 c 7 
-e c c c c c c c c c c c c c c 7 
-e c c c c c c c c c c c c c c 7 
+7 e e e c e e c e e e c e e e 7 
+7 e e c c c c c c c c c c c c 7 
+7 e 7 c c c c c c c c c c 7 c 7 
+7 e c c c c c c c c c c c c c 7 
+7 e c c c c c c c c c c c c c 7 
 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 
 . . . . . . . 7 e e e e e e 7 . 
 . . . . . . . . 7 c c c c c e 7 
@@ -1168,6 +1168,7 @@ function placePlatforms () {
     }
 }
 function clearLevel () {
+    hero.destroy()
     for (let value of sprites.allOfKind(SpriteKind.movingTrap)) {
         value.destroy()
     }
@@ -1209,56 +1210,56 @@ function initializeLevel (level: number) {
     } else {
         if (level == 2) {
             tiles.setTilemap(tiles.createTilemap(
-            hex`1000300000000000000000000000000000000000000000000000000000000000000000000b0b0b0b0b0b0b000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b0b0b0b0b0b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b0b0b0b0b0b000000000000000000000000000000000000000000000000000000000000000000000000000b0b0b0b0b0b000000000000000000000000000000000000000000000000000000000000000000000000000b0b0b0b0b0b0b00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000b0000000000000000000000000000000b0000000000000000000000000000000b00000b0b0b0b0b0b0b0b0b0b0b0b0b0b0000000000000000000000000000000b0000000000000000000000000000000b0000000000000000000000000000000b0b0b0b0b0b0b0b0b0b0b0b000000000b0000000000000000000000000000000b0000000000000000000000000000000b0000000000000000000000000000000b0b0b0b0b0b0b0000000b0b0b0b0b0b0b00000000000000000000000000000019000000000000000000000000000000190000000000000000000000000000001900000000000000000000000000000019000000000000000000000000000000190000000000000000000000000000001923000000000000000000000000000019000000000000000000000000000000190b00001f0000001f0000001f0000000017171717171717171717171717171717`,
+            hex`12003000060808080808080808080808080808080804060014140000000014140000000000000004060000000000000000000021000000002004060000000000000000001601020202020205060000001f00210000000004080808080805061500000016010202020206000000000004061f000000000708080808090000000000040615000000001400001d14190001031a1c0406001e00000000001e001d19130406000004050202020202020202020319010506000004050808080808080808050619040506000004060000000f000000000709190708090000040600001d100000000000001900000000000406001d000e001e0000000000001e00000004060b000102020202020202020202020202050614000708080808080808080808080808050600000d00140000001400000000001400040600000c210000000021000000000000000406000b010202020202020202020300001604060014040508080808080808050600001d040600000406001900000f00000406151d000406000004060019001d100000040600000004060b00040600191d00100000040615001b0406140004060019000010001b070900000004060000040600000000100000001d0000000406000004061e0000000e1e001d00001100040600010202020202020202031a1c001000040600040808080808080802030000000e000406000b00000000000019040600010203160406000d000021000000190406000708090004060000000108080203190406000f00000004060000000b19190406190406001000000004060808080919190406190406001200000004061500001419190406190406000000010205060000000019190406190409000016070805060000010319190406190b00001100190004060300040619190406190d00001000190004060900040619190406190703000e00190004061400040613130406191404060b15191b0406000004060202040619000406000019160406001b0708080808090000070900000016040600000000000000140000140000000000040613000000000000000000001d1e00000004060a0d00000103001f00001d00010202020523001400000406000000130000040505050500000000000709000000011a000405050505060b001f00000b0000000a00000405050505061717171701031717170a17170405050505`,
             img`
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-2 2 2 2 2 2 2 . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . 2 2 2 2 2 2 . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . 2 2 2 2 2 2 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . 2 2 2 2 2 2 . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-2 2 2 2 2 2 2 . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . 2 
-. . . . . . . . . . . . . . . 2 
-. . . . . . . . . . . . . . . 2 
-. . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
-. . . . . . . . . . . . . . . 2 
-. . . . . . . . . . . . . . . 2 
-. . . . . . . . . . . . . . . 2 
-2 2 2 2 2 2 2 2 2 2 2 . . . . 2 
-. . . . . . . . . . . . . . . 2 
-. . . . . . . . . . . . . . . 2 
-. . . . . . . . . . . . . . . 2 
-2 2 2 2 2 2 . . . 2 2 2 2 2 2 2 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
-2 . . . . . . . . . . . . . . . 
-. . . . . . . . . . . . . . . . 
+2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+2 . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . 2 2 2 2 2 2 2 
+2 . . . . . . . . . . 2 2 2 2 2 2 2 
+2 . . . . . 2 2 2 2 2 2 . . . . . 2 
+2 . . . . . 2 2 2 2 2 2 . . . . . 2 
+2 . . . . . . . . . . . . 2 2 . . 2 
+2 . . . . . . . . . . . . 2 2 . . 2 
+2 2 2 2 2 2 2 2 2 2 2 . 2 2 2 . . 2 
+2 2 2 2 2 2 2 2 2 2 2 . 2 2 2 . . 2 
+2 . . . . . . . . 2 2 . 2 2 2 . . 2 
+2 . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . 2 
+2 2 . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+2 . . 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 
+2 . . 2 . . . . . . . . . . . . . 2 
+2 . . 2 . . . . . . . . . . . . . 2 
+2 . 2 2 2 2 2 2 2 2 2 2 2 2 . . . 2 
+2 . . 2 2 2 2 2 2 2 2 2 2 2 . . . 2 
+2 . . 2 2 . . . . . . . 2 2 . . . 2 
+2 . . 2 2 . . . . . . . 2 2 . . . 2 
+2 2 . 2 2 . . . . . . . 2 2 . . . 2 
+2 . . 2 2 . . . . . . . 2 2 . . . 2 
+2 . . 2 2 . . . . . . . . . . . . 2 
+2 . . 2 2 . . . . . . . . . . . . 2 
+2 . 2 2 2 2 2 2 2 2 2 2 . . . . . 2 
+2 . 2 2 2 2 2 2 2 2 2 2 . . . . . 2 
+2 . 2 . . . . . . . 2 2 . 2 2 2 . 2 
+2 . 2 . . . . . . . 2 2 . 2 2 2 . 2 
+2 . . . 2 2 2 2 2 . 2 2 . . . . . 2 
+2 . . . 2 . . 2 2 . 2 2 . . . . . 2 
+2 2 2 2 2 . . 2 2 . 2 2 . . . . . 2 
+2 . . . . . . 2 2 . 2 2 . . . 2 2 2 
+2 . . . . . . 2 2 . 2 2 . . . 2 2 2 
+2 . . 2 2 . . 2 2 . 2 . . . . . . 2 
+2 2 . 2 2 . . 2 2 . 2 . . . . . . 2 
+2 2 . 2 2 . . 2 2 . 2 2 . . . . . 2 
+2 . . 2 2 . . 2 2 . . 2 2 2 . . . 2 
+2 . . 2 2 2 2 2 2 . . 2 2 . . . . 2 
+2 . . 2 2 2 2 2 2 . . 2 2 . . . . 2 
+2 . . . . . . . . . . . . . . . . 2 
+2 . . . . . . . . . . . . . . . . 2 
+2 2 2 . . 2 2 . . . . . . 2 2 2 2 2 
+. . . . . 2 2 . . . . . . 2 2 2 2 2 
+. . . . . 2 2 . . . 2 . . 2 2 2 2 2 
+2 2 . . . . 2 . . . 2 . . 2 2 2 2 2 
+2 . . . . 2 2 . . . 2 . . 2 2 2 2 2 
 `,
             [myTiles.tile0,myTiles.tile1,myTiles.tile2,myTiles.tile3,myTiles.tile4,myTiles.tile5,myTiles.tile6,myTiles.tile7,myTiles.tile8,myTiles.tile9,myTiles.tile10,myTiles.tile11,myTiles.tile12,myTiles.tile13,myTiles.tile14,myTiles.tile15,myTiles.tile16,myTiles.tile17,myTiles.tile18,myTiles.tile19,myTiles.tile20,myTiles.tile21,myTiles.tile22,myTiles.tile23,myTiles.tile24,myTiles.tile25,myTiles.tile26,myTiles.tile27,myTiles.tile28,myTiles.tile29,myTiles.tile30,myTiles.tile31,myTiles.tile32,myTiles.tile33,myTiles.tile34,myTiles.tile35],
             TileScale.Sixteen
@@ -1269,36 +1270,7 @@ function initializeLevel (level: number) {
     placeMovingTraps()
     placeMovingPlatforms()
     createEnemies()
-    hero.ay = gravity
-    hero.setVelocity(0, 0)
-    tiles.placeOnRandomTile(hero, myTiles.tile35)
-    scene.cameraFollowSprite(hero)
-    heroState = "idle"
-    heroDirection = "right"
-}
-let movingClock = false
-let spikesDown: Sprite = null
-let spikesLeft: Sprite = null
-let spikesRight: Sprite = null
-let spikesUp: Sprite = null
-let MovingTrapsList: Sprite[] = []
-let circSaw: Sprite = null
-let bumper: Sprite = null
-let jump = false
-let heroDirection = ""
-let heroState = ""
-let MovingPlatformsList: Sprite[] = []
-let movingPlatformH: Sprite = null
-let currentLevel = 0
-let hero: Sprite = null
-let invincibilityPeriod = 0
-let gravity = 0
-// image.setPalette(palettes.Equpix15)
-scene.setBackgroundColor(2)
-game.showLongText("Ah ah ah ! My little Hero, you are trapped. Neither your double jump, dash or wall jump will help you escape. You'll die in this maze of death ! The Ruthless Witch.", DialogLayout.Full)
-gravity = 400
-invincibilityPeriod = 2000
-hero = sprites.create(img`
+    hero = sprites.create(img`
 . . . . . . . . . . . . . . . . 
 . . . 7 7 7 7 7 . . . . . . . . 
 . . 7 9 c c c c 7 . . . . . . . 
@@ -1320,9 +1292,37 @@ hero = sprites.create(img`
 . . . 7 5 5 7 7 7 7 5 5 7 . . . 
 . . . 7 7 7 . . . . 7 7 7 . . . 
 `, SpriteKind.Player)
-controller.moveSprite(hero, 100, 0)
+    hero.ay = gravity
+    controller.moveSprite(hero, 100, 0)
+    tiles.placeOnRandomTile(hero, myTiles.tile35)
+    scene.cameraFollowSprite(hero)
+    heroState = "idle"
+    heroDirection = "right"
+}
+let movingClock = false
+let spikesDown: Sprite = null
+let spikesLeft: Sprite = null
+let spikesRight: Sprite = null
+let spikesUp: Sprite = null
+let MovingTrapsList: Sprite[] = []
+let circSaw: Sprite = null
+let bumper: Sprite = null
+let jump = false
+let heroDirection = ""
+let heroState = ""
+let MovingPlatformsList: Sprite[] = []
+let movingPlatformH: Sprite = null
+let hero: Sprite = null
+let currentLevel = 0
+let invincibilityPeriod = 0
+let gravity = 0
+// image.setPalette(palettes.Equpix15)
+scene.setBackgroundColor(2)
+game.showLongText("Ah ah ah ! My little Hero, you are trapped. Neither your double jump, dash or wall jump will help you escape. You'll die in this maze of death ! The Ruthless Witch.", DialogLayout.Full)
+gravity = 400
+invincibilityPeriod = 2000
 info.setLife(3)
-currentLevel = 2
+currentLevel = 1
 initializeLevel(currentLevel)
 game.onUpdateInterval(2000, function () {
     if (movingClock == false) {
